@@ -38,7 +38,7 @@ class FeedItemStatus:
 class FeedStatus:
     """The status of a Feed."""
 
-    def __init__(self, retrievedOn) -> None:
+    def __init__(self, retrievedOn = None) -> None:
         """Construct a FeedStatus with its last retrieved date."""
         self.LastRetrieved = retrievedOn
 
