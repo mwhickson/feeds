@@ -1,8 +1,17 @@
 import unittest
+from os import path as ospath
 
 import app
 
 class TestObjectCreation(unittest.TestCase):
+
+    def test_config_create(self):
+        c = app.Config()
+        self.assertIsNotNone(c.HomeFolder)
+        self.assertEqual(ospath.join(c.HomeFolder, "config.ini"), c.ConfigurationFile)
+        self.assertEqual("subscriptions.xml", c.SubscriptionFile)
+        self.assertEqual("feeds.db", c.DatabaseFile)
+        self.assertEqual(60, c.FeedCheckInterval)
 
     def test_feed_create(self):
         f = app.Feed("A Test Feed", "https://feed.com/test.rss")

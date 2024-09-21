@@ -1,0 +1,5 @@
+[settings]
+AppHomeFolder = "~/.config/feeds/"
+SubscriptionFile = "subscriptions.xml"
+DatabaseFile = "feeds.db"
+FeedCheckIntervalMinutes = 60
