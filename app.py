@@ -2,6 +2,49 @@
 # feeds - a news reader for RSS, Atom or other internet news feeds.
 #
 
+from configparser import ConfigParser
+from os import path as ospath
+from pathlib import Path as plpath
+
+APP_NAME = "feeds"
+DEFAULT_HOME = "~/.config/feeds/"
+DEFAULT_CONFIG_INI = "config.ini"
+DEFAULT_SUBSCRIPTION_FILE = "subscriptions.xml"
+
+
+class Config:
+    """Application configuration settings list."""
+
+    def __init__(self, base_folder: str = str(plpath.home())) -> None:
+        """Construct a feeds configuration."""
+        self.BaseFolder = base_folder
+        self.HomeFolder = DEFAULT_HOME.replace("~", self.BaseFolder)
+        self.ConfigurationFile = ospath.join(self.HomeFolder, DEFAULT_CONFIG_INI)
+        self.SubscriptionFile = ospath.join(self.HomeFolder, DEFAULT_SUBSCRIPTION_FILE)
+
+    def load_configuration(self) -> None:
+        """Load the application configuration file from disk."""
+        if not ospath.exists(self.ConfigurationFile):
+            print(f"configuration file '{self.ConfigurationFile}' does not exist")
+        else:
+            config = ConfigParser()
+            config.read(self.ConfigurationFile)
+            if "settings" in config:
+                for key in config["settings"]:
+                    print(key, config["settings"][key])
+
+    def load_subscriptions(self) -> None:
+        """Load the application subscription file from disk."""
+        if not ospath.exists(self.SubscriptionFile):
+            print(f"subscription file '{self.SubscriptionFile}' does not exist")
+        else:
+            f = open(self.SubscriptionFile)
+            lines = f.readlines()
+            f.close()
+
+            # TODO: process subscriptions...
+            print(lines)
+
 
 class Feed:
     """A news feed in RSS, Atom, or other standardized format."""
@@ -55,4 +98,8 @@ class Subscriptions:
 
 
 if __name__ == "__main__":
-    print("feeds")
+    print(APP_NAME)
+
+    config = Config()
+    config.load_configuration()
+    # config.load_subscriptions()
